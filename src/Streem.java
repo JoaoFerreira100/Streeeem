@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -38,7 +39,7 @@ class VideoRequest {
         this.n = n;
     }
 
-    void computeY(){
+    int computeY(){
         int videoSize = v.getSize();
         for (int i = 0; i < e.length; i++){
             Endpoint currentE = e[i];
@@ -115,8 +116,19 @@ class Cache {
     }
 }
 
+class SortByY implements Comparator<VideoRequest>{
+
+    @Override
+    public int compare(VideoRequest v1 , VideoRequest v2) {
+        return v1.computeY() - v2.computeY();
+    }
+}
 
 public class Streem {
+
+    //global videoReq array
+    private VideoRequest[] v;
+
     Scanner scan = new Scanner(System.in);
 
     int video;
@@ -173,21 +185,12 @@ public class Streem {
         }
     }
 
-    void sortArray(float[] array, int length) {
-
-        int i, j;
-        float key;
-        for (i = 1; i < length; i++)
-        {
-            key = array[i];
-            j = i-1;
-
-            while (j >= 0 && array[j] > key)
-            {
-                array[j+1] = array[j];
-                j = j-1;
-            }
-            array[j+1] = key;
+    //sorts video request array
+    //call this method on the global v array
+    void sortVideoRequests(VideoRequest[] videoReqArray){
+        SortByY s = new SortByY();
+        for(int i=1; i<videoReqArray.length; i++){
+            s.compare(videoReqArray[i-1], videoReqArray[i]);
         }
     }
 
@@ -196,4 +199,6 @@ public class Streem {
             requests[i].c.videos.add(requests[i].v);
         }
     }
+
 }
+
