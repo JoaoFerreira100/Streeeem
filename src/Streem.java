@@ -120,6 +120,13 @@ public class Streem {
     ArrayList<Endpoint> endpoint;
     VideoRequest[] requests;
 
+    boolean[][] createBooleanMatrix(int E, int Vi){
+        //making sure all elemts fit in Matrix
+        //may give null pointer exceptions
+        boolean[][] matrix = new boolean[E+1][Vi+1];
+        return matrix;
+    }
+
     public static void main(String[] args){
         System.out.println("dupex");
     }
@@ -174,6 +181,8 @@ public class Streem {
             requests[i].c.videos.add(requests[i].v);
         }
     }
+
+
 
 }
 
