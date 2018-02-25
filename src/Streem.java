@@ -26,7 +26,7 @@ class VideoRequest {
     Video v;
     Cache c;
     Endpoint[] e;
-    int[] y;
+    float[] y;
     int n; //number of requests
 
 
@@ -34,7 +34,7 @@ class VideoRequest {
         this.v = v;
         this.c = c;
         this.e = e;
-        y = new int[e.length];
+        y = new float[e.length];
         this.n = n;
     }
 
@@ -42,8 +42,12 @@ class VideoRequest {
         int videoSize = v.getSize();
         for (int i = 0; i < e.length; i++){
             Endpoint currentE = e[i];
-            int cacheLatency = e[i].getCacheLatency(c);
-
+            int cacheLatency = e[i].getCacheLatency(c.getId());
+            int datacenterLatency = e[i].getLatencyDatacenter();
+            int deltaL = datacenterLatency - cacheLatency;
+            int numberRequests = e[i].getVideorequests(v.getId());
+            float yi = ((float)numberRequests / (float)videoSize) * (float)deltaL;
+            y[i] = yi;
 
         }
 
@@ -57,6 +61,10 @@ class Endpoint {
 
     public void setVideorequests(int a, int b) {
         this.videorequests.put(a,b);
+    }
+
+    public int getVideorequests(int id) {
+        return videorequests.get(id);
     }
 
     HashMap<Integer, Integer> videorequests;
@@ -91,6 +99,11 @@ class Endpoint {
 
 class Cache {
     int size;
+
+    public int getId() {
+        return id;
+    }
+
     int id;
     ArrayList<Integer> endpointIDs = new ArrayList<>();
     ArrayList<Integer> latencies = new ArrayList<>();
