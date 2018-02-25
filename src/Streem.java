@@ -54,6 +54,12 @@ class VideoRequest {
 class Endpoint {
     int endpointNumber;
     HashMap<Integer, Integer> latencies;
+
+    public void setVideorequests(int a, int b) {
+        this.videorequests.put(a,b);
+    }
+
+    HashMap<Integer, Integer> videorequests;
     int latencyDatacenter;
     int cacheNumber;
 
@@ -78,18 +84,21 @@ class Endpoint {
         this.latencyDatacenter = lD;
         this.cacheNumber = cN;
         this.latencies = lt;
+        videorequests = new HashMap<>();
     }
 
 }
 
 class Cache {
     int size;
+    int id;
     ArrayList<Integer> endpointIDs = new ArrayList<>();
     ArrayList<Integer> latencies = new ArrayList<>();
     ArrayList<Video> videos = new ArrayList<>();
 
-    public Cache(int sz){
+    public Cache(int sz, int id){
         this.size = sz;
+        this.id = id;
     }
 }
 
@@ -144,7 +153,10 @@ public class Streem {
 
         requests = new VideoRequest[request];
         for (int i = 0; i < request; i++) {
-
+            int videoID = scan.nextInt();
+            int endpointID = scan.nextInt();
+            int nRequest = scan.nextInt();
+            endpoint.get(endpointID).setVideorequests(videoID, nRequest);
         }
     }
 
