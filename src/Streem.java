@@ -3,8 +3,8 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 class Video {
-    int id;
-    int size;
+    private final int id;
+    private final int size;
 
     public Video(int id, int size) {
         this.id = id;
